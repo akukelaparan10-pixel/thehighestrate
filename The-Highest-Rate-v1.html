@@ -1,0 +1,1662 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Klasifikasi Tinggi Badan Indonesia</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .card-shadow {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .result-animation {
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .height-bar {
+            transition: all 0.3s ease;
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+        
+        .floating-animation {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+        
+        .bounce-in {
+            animation: bounceIn 0.6s ease-out;
+        }
+        
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .btn-click-animation {
+            animation: btnClick 0.15s ease-in-out;
+        }
+        
+        @keyframes btnClick {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(0.95);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .input-click-animation {
+            animation: inputClick 0.2s ease-in-out;
+        }
+        
+        @keyframes inputClick {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4);
+            }
+            50% {
+                transform: scale(1.02);
+                box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.2);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
+            }
+        }
+        
+        .nav-btn.active {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6) !important;
+            color: white !important;
+            transform: scale(1.05) !important;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4), 0 0 20px rgba(139, 92, 246, 0.3) !important;
+        }
+        
+        .nav-btn:not(.active):hover {
+            background: rgba(255, 255, 255, 0.1) !important;
+            transform: scale(1.02) !important;
+        }
+        
+        .page-content {
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        .country-flag {
+            width: 24px;
+            height: 16px;
+            border-radius: 2px;
+            display: inline-block;
+            margin-right: 8px;
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full"><!-- Navigation -->
+  <nav class="bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 shadow-2xl sticky top-0 z-40">
+   <div class="max-w-6xl mx-auto px-4 py-2">
+    <div class="flex justify-center">
+     <div class="flex bg-black bg-opacity-20 rounded-2xl p-2 backdrop-blur-sm border border-white border-opacity-10"><button id="nav-classification" class="nav-btn active relative px-8 py-4 text-sm font-bold rounded-xl transition-all duration-300 transform hover:scale-105 bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg">
+       <div class="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-xl opacity-0 hover:opacity-20 transition-opacity duration-300"></div>
+       <div class="relative flex items-center"><span class="mr-3 text-lg">📏</span> <span>Klasifikasi Tinggi Badan</span>
+       </div></button> <button id="nav-comparison" class="nav-btn relative px-8 py-4 text-sm font-bold rounded-xl transition-all duration-300 transform hover:scale-105 text-white hover:bg-white hover:bg-opacity-10">
+       <div class="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-xl opacity-0 hover:opacity-20 transition-opacity duration-300"></div>
+       <div class="relative flex items-center"><span class="mr-3 text-lg">🌍</span> <span>Perbandingan Internasional</span>
+       </div></button>
+     </div>
+    </div>
+   </div>
+  </nav>
+  <main class="min-h-full gradient-bg flex items-center justify-center p-4"><!-- Classification Page -->
+   <div id="classification-page" class="page-content w-full max-w-2xl"><!-- Header Card -->
+    <div class="bg-white rounded-2xl card-shadow p-8 mb-6">
+     <div class="text-center">
+      <div class="mb-4"><span class="text-6xl">📏</span>
+      </div>
+      <h1 id="app-title" class="text-3xl font-bold text-gray-800 mb-4">Klasifikasi Tinggi Badan Indonesia</h1>
+      <p id="description-text" class="text-gray-600 text-lg leading-relaxed">Cek apakah tinggi badan Anda termasuk pendek, normal, atau tinggi berdasarkan rata-rata tinggi badan orang Indonesia</p>
+     </div>
+    </div><!-- Input Card -->
+    <div class="bg-white rounded-2xl card-shadow p-8 mb-6">
+     <div class="space-y-6">
+      <div><label for="gender" class="block text-lg font-semibold text-gray-700 mb-3"> Jenis Kelamin </label> <select id="gender" class="w-full p-4 border-2 border-gray-200 rounded-xl text-lg focus:border-blue-500 focus:outline-none transition-all duration-300 hover:border-blue-400 hover:shadow-md"> <option value="">Pilih jenis kelamin</option> <option value="male">Laki-laki</option> <option value="female">Perempuan</option> </select>
+      </div>
+      <div><label for="height" class="block text-lg font-semibold text-gray-700 mb-3"> Tinggi Badan (cm) </label> <input type="number" id="height" placeholder="Masukkan tinggi badan Anda" class="w-full p-4 border-2 border-gray-200 rounded-xl text-lg focus:border-blue-500 focus:outline-none transition-all duration-300 hover:border-blue-400 hover:shadow-md" min="100" max="250">
+      </div>
+      <div><label for="age" class="block text-lg font-semibold text-gray-700 mb-3"> Umur (tahun) </label> <input type="number" id="age" placeholder="Masukkan umur Anda" class="w-full p-4 border-2 border-gray-200 rounded-xl text-lg focus:border-blue-500 focus:outline-none transition-all duration-300 hover:border-blue-400 hover:shadow-md" min="10" max="100">
+      </div><button id="check-btn" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold py-4 px-8 rounded-xl text-lg hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"> Cek Tinggi Badan Saya </button>
+     </div>
+    </div><!-- Result Card -->
+    <div id="result-card" class="bg-white rounded-2xl card-shadow p-8 hidden">
+     <div class="text-center">
+      <div id="result-icon" class="text-6xl mb-4"></div>
+      <h2 id="result-title" class="text-2xl font-bold mb-4"></h2>
+      <p id="result-description" class="text-gray-600 text-lg mb-6"></p><!-- Height Comparison Bars -->
+      <div class="bg-gray-50 rounded-xl p-6 mb-6">
+       <h3 class="text-lg font-semibold text-gray-700 mb-4">Perbandingan dengan Rata-rata Indonesia</h3>
+       <div class="space-y-4">
+        <div class="flex items-center justify-between"><span class="text-sm font-medium text-gray-600">Pendek</span>
+         <div class="flex-1 mx-4 bg-gray-200 rounded-full h-3">
+          <div id="short-bar" class="height-bar bg-red-400 h-3 rounded-full" style="width: 25%"></div>
+         </div><span class="text-sm text-gray-500" id="short-range"></span>
+        </div>
+        <div class="flex items-center justify-between"><span class="text-sm font-medium text-gray-600">Normal</span>
+         <div class="flex-1 mx-4 bg-gray-200 rounded-full h-3">
+          <div id="normal-bar" class="height-bar bg-green-400 h-3 rounded-full" style="width: 50%"></div>
+         </div><span class="text-sm text-gray-500" id="normal-range"></span>
+        </div>
+        <div class="flex items-center justify-between"><span class="text-sm font-medium text-gray-600">Tinggi</span>
+         <div class="flex-1 mx-4 bg-gray-200 rounded-full h-3">
+          <div id="tall-bar" class="height-bar bg-blue-400 h-3 rounded-full" style="width: 25%"></div>
+         </div><span class="text-sm text-gray-500" id="tall-range"></span>
+        </div>
+       </div>
+       <div class="mt-6 flex justify-center">
+        <div class="bg-gradient-to-r from-yellow-100 to-amber-100 border-2 border-yellow-400 rounded-xl p-6 shadow-lg transform hover:scale-105 transition-all duration-300 max-w-md w-full">
+         <div class="text-center">
+          <div class="bg-yellow-400 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3 shadow-md"><span class="text-2xl">👤</span>
+          </div>
+          <div class="bg-white bg-opacity-70 rounded-lg p-3 border border-yellow-300"><span id="user-position" class="text-base font-bold text-yellow-900 leading-relaxed block"></span>
+          </div>
+          <div class="mt-3 flex justify-center">
+           <div class="bg-yellow-400 text-yellow-900 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide">
+            Hasil Analisis Anda
+           </div>
+          </div>
+          <div class="mt-4 space-y-2"><button id="detail-btn" class="bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-white font-bold py-2 px-4 rounded-lg text-sm shadow-md transform hover:scale-105 transition-all duration-200 flex items-center mx-auto"> <span class="mr-2">🔍</span> Lihat Detail Penjelasan </button> <button id="suggestions-btn" class="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-bold py-2 px-4 rounded-lg text-sm shadow-md transform hover:scale-105 transition-all duration-200 flex items-center mx-auto"> <span class="mr-2">💡</span> Lihat Saran &amp; Tips </button>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div><!-- Statistics -->
+      <div class="grid grid-cols-2 gap-4 text-center mb-6">
+       <div class="bg-blue-50 rounded-lg p-4">
+        <div class="text-2xl font-bold text-blue-600" id="avg-height"></div>
+        <div class="text-sm text-blue-500">
+         Rata-rata Nasional
+        </div>
+       </div>
+       <div class="bg-purple-50 rounded-lg p-4">
+        <div class="text-2xl font-bold text-purple-600" id="height-diff"></div>
+        <div class="text-sm text-purple-500">
+         Selisih Anda
+        </div>
+       </div>
+      </div>
+     </div>
+    </div><!-- Detail Modal -->
+    <div id="detail-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+     <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90%] overflow-y-auto card-shadow">
+      <div class="sticky top-0 bg-gradient-to-r from-amber-500 to-yellow-500 text-white p-6 rounded-t-2xl">
+       <div class="flex justify-between items-center">
+        <div class="flex items-center"><span class="text-3xl mr-3">📊</span>
+         <h2 class="text-2xl font-bold">Detail Analisis Tinggi Badan</h2>
+        </div><button id="close-modal" class="text-white hover:text-gray-200 text-2xl font-bold">×</button>
+       </div>
+      </div>
+      <div class="p-6 space-y-6" id="modal-content"><!-- Content will be populated by JavaScript -->
+      </div>
+     </div>
+    </div><!-- Suggestions Modal -->
+    <div id="suggestions-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+     <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90%] overflow-y-auto card-shadow">
+      <div class="sticky top-0 bg-gradient-to-r from-green-500 to-emerald-500 text-white p-6 rounded-t-2xl">
+       <div class="flex justify-between items-center">
+        <div class="flex items-center"><span class="text-3xl mr-3">💡</span>
+         <h2 class="text-2xl font-bold">Saran &amp; Tips untuk Anda</h2>
+        </div><button id="close-suggestions-modal" class="text-white hover:text-gray-200 text-2xl font-bold">×</button>
+       </div>
+      </div>
+      <div class="p-6 space-y-6" id="suggestions-modal-content"><!-- Content will be populated by JavaScript -->
+      </div>
+     </div>
+    </div><!-- Info Card -->
+    <div class="bg-white rounded-2xl card-shadow p-6 mt-6">
+     <div class="flex items-start space-x-3"><span class="text-2xl">ℹ️</span>
+      <div>
+       <h3 class="font-semibold text-gray-800 mb-2">Informasi</h3>
+       <p class="text-sm text-gray-600 leading-relaxed">Data berdasarkan penelitian rata-rata tinggi badan orang Indonesia dewasa. Klasifikasi ini bersifat umum dan dapat bervariasi tergantung faktor genetik, nutrisi, dan lingkungan.</p>
+      </div>
+     </div>
+    </div>
+   </div><!-- Comparison Page -->
+   <div id="comparison-page" class="page-content w-full max-w-4xl hidden"><!-- Header Card -->
+    <div class="bg-white rounded-2xl card-shadow p-8 mb-6">
+     <div class="text-center">
+      <div class="mb-4"><span class="text-6xl">🌍</span>
+      </div>
+      <h1 class="text-3xl font-bold text-gray-800 mb-4">Perbandingan Tinggi Badan Internasional</h1>
+      <p class="text-gray-600 text-lg leading-relaxed">Bandingkan tinggi badan Anda dengan rata-rata tinggi badan dari berbagai negara di dunia</p>
+     </div>
+    </div><!-- Input Card for Comparison -->
+    <div class="bg-white rounded-2xl card-shadow p-8 mb-6">
+     <div class="space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+       <div><label for="comp-gender" class="block text-lg font-semibold text-gray-700 mb-3"> Jenis Kelamin </label> <select id="comp-gender" class="w-full p-4 border-2 border-gray-300 rounded-xl text-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 focus:outline-none transition-all duration-300 hover:border-purple-400 bg-white shadow-md hover:shadow-lg"> <option value="">Pilih jenis kelamin</option> <option value="male">Laki-laki</option> <option value="female">Perempuan</option> </select>
+       </div>
+       <div><label for="comp-height" class="block text-lg font-semibold text-gray-700 mb-3"> Tinggi Badan (cm) </label> <input type="number" id="comp-height" placeholder="Masukkan tinggi badan" class="w-full p-4 border-2 border-gray-300 rounded-xl text-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 focus:outline-none transition-all duration-300 hover:border-purple-400 bg-white shadow-md hover:shadow-lg" min="100" max="250">
+       </div>
+       <div><label for="comp-age" class="block text-lg font-semibold text-gray-700 mb-3"> Umur (tahun) </label> <input type="number" id="comp-age" placeholder="Masukkan umur Anda" class="w-full p-4 border-2 border-gray-300 rounded-xl text-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 focus:outline-none transition-all duration-300 hover:border-purple-400 bg-white shadow-md hover:shadow-lg" min="10" max="100">
+       </div>
+      </div><!-- Country Selection Section -->
+      <div class="border-t border-gray-200 pt-6">
+       <h3 class="text-lg font-semibold text-gray-700 mb-4 flex items-center"><span class="mr-2 text-2xl floating-animation">🎯</span> Pilih Negara untuk Dibandingkan</h3><!-- Simple Country Dropdown -->
+       <div class="mb-4"><label for="country-select" class="block text-sm font-medium text-gray-600 mb-2 flex items-center"> <span class="mr-2 text-lg floating-animation">🌍</span> Pilih satu negara: </label> <select id="country-select" class="w-full p-4 border-2 border-gray-300 rounded-xl text-base focus:border-purple-500 focus:ring-2 focus:ring-purple-200 focus:outline-none transition-all duration-300 hover:border-purple-400 bg-white shadow-md hover:shadow-lg"> <option value="">-- Pilih Negara untuk Perbandingan --</option> <!-- Countries will be populated by JavaScript --> </select>
+       </div><button id="compare-country-btn" class="w-full bg-gradient-to-r from-purple-600 via-pink-600 to-purple-700 text-white font-bold py-4 px-8 rounded-2xl text-base hover:from-purple-700 hover:via-pink-700 hover:to-purple-800 transform hover:scale-105 hover:rotate-1 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-2xl relative overflow-hidden group">
+        <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <div class="relative flex items-center justify-center space-x-3"><span class="text-2xl animate-bounce">🌍</span> <span class="tracking-wide">Bandingkan dengan Negara Terpilih</span> <span class="text-xl group-hover:translate-x-1 transition-transform duration-300">⚡</span>
+        </div></button>
+      </div>
+     </div>
+    </div><!-- Comparison Results -->
+    <div id="comparison-results" class="hidden"><!-- Detailed Country Comparison -->
+     <div class="bg-white rounded-2xl card-shadow p-8 mb-6">
+      <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center"><span class="mr-2">📊</span> Perbandingan Detail dengan Negara Lain</h2>
+      <div id="country-comparison" class="space-y-4"><!-- Will be populated by JavaScript -->
+      </div>
+     </div>
+    </div>
+   </div>
+  </main>
+  <script>
+        // Data rata-rata tinggi badan Indonesia (dalam cm)
+        const heightData = {
+            male: {
+                average: 168,
+                short: { min: 0, max: 162 },
+                normal: { min: 163, max: 173 },
+                tall: { min: 174, max: 250 }
+            },
+            female: {
+                average: 157,
+                short: { min: 0, max: 151 },
+                normal: { min: 152, max: 162 },
+                tall: { min: 163, max: 250 }
+            }
+        };
+
+        // Data rata-rata tinggi badan internasional berdasarkan penelitian WHO dan studi antropometri terbaru (dalam cm)
+        const worldHeightData = {
+            male: {
+                // Eropa Utara - Tertinggi di dunia
+                'Belanda': { height: 183.8, flag: '🇳🇱', region: 'Eropa Utara' },
+                'Montenegro': { height: 183.3, flag: '🇲🇪', region: 'Eropa Selatan' },
+                'Estonia': { height: 182.8, flag: '🇪🇪', region: 'Eropa Utara' },
+                'Bosnia Herzegovina': { height: 182.5, flag: '🇧🇦', region: 'Eropa Selatan' },
+                'Islandia': { height: 182.1, flag: '🇮🇸', region: 'Eropa Utara' },
+                'Denmark': { height: 181.9, flag: '🇩🇰', region: 'Eropa Utara' },
+                'Norwegia': { height: 181.6, flag: '🇳🇴', region: 'Eropa Utara' },
+                'Serbia': { height: 181.2, flag: '🇷🇸', region: 'Eropa Selatan' },
+                'Jerman': { height: 180.3, flag: '🇩🇪', region: 'Eropa Barat' },
+                'Kroasia': { height: 180.5, flag: '🇭🇷', region: 'Eropa Selatan' },
+                'Slovenia': { height: 180.3, flag: '🇸🇮', region: 'Eropa Selatan' },
+                'Republik Ceko': { height: 180.1, flag: '🇨🇿', region: 'Eropa Tengah' },
+                'Slovakia': { height: 179.9, flag: '🇸🇰', region: 'Eropa Tengah' },
+                'Lithuania': { height: 179.0, flag: '🇱🇹', region: 'Eropa Utara' },
+                'Latvia': { height: 179.6, flag: '🇱🇻', region: 'Eropa Utara' },
+                'Finlandia': { height: 179.6, flag: '🇫🇮', region: 'Eropa Utara' },
+                'Austria': { height: 179.4, flag: '🇦🇹', region: 'Eropa Tengah' },
+                'Swedia': { height: 179.7, flag: '🇸🇪', region: 'Eropa Utara' },
+                'Luksemburg': { height: 179.0, flag: '🇱🇺', region: 'Eropa Barat' },
+                'Ukraina': { height: 178.2, flag: '🇺🇦', region: 'Eropa Timur' },
+                'Australia': { height: 179.2, flag: '🇦🇺', region: 'Oseania' },
+                'Selandia Baru': { height: 177.7, flag: '🇳🇿', region: 'Oseania' },
+                'Kanada': { height: 178.1, flag: '🇨🇦', region: 'Amerika Utara' },
+                'Irlandia': { height: 178.9, flag: '🇮🇪', region: 'Eropa Barat' },
+                'Inggris': { height: 177.5, flag: '🇬🇧', region: 'Eropa Barat' },
+                'Belgia': { height: 178.6, flag: '🇧🇪', region: 'Eropa Barat' },
+                'Swiss': { height: 178.2, flag: '🇨🇭', region: 'Eropa Barat' },
+                'Prancis': { height: 175.6, flag: '🇫🇷', region: 'Eropa Barat' },
+                'Amerika Serikat': { height: 175.4, flag: '🇺🇸', region: 'Amerika Utara' },
+                'Polandia': { height: 178.7, flag: '🇵🇱', region: 'Eropa Tengah' },
+                'Hungaria': { height: 176.0, flag: '🇭🇺', region: 'Eropa Tengah' },
+                'Rusia': { height: 176.5, flag: '🇷🇺', region: 'Eropa Timur' },
+                'Belarus': { height: 177.1, flag: '🇧🇾', region: 'Eropa Timur' },
+                'Italia': { height: 175.4, flag: '🇮🇹', region: 'Eropa Selatan' },
+                'Spanyol': { height: 174.0, flag: '🇪🇸', region: 'Eropa Selatan' },
+                'Portugal': { height: 173.9, flag: '🇵🇹', region: 'Eropa Selatan' },
+                'Yunani': { height: 177.3, flag: '🇬🇷', region: 'Eropa Selatan' },
+                'Israel': { height: 175.6, flag: '🇮🇱', region: 'Asia Barat' },
+                'Lebanon': { height: 174.0, flag: '🇱🇧', region: 'Asia Barat' },
+                'Turki': { height: 173.6, flag: '🇹🇷', region: 'Asia Barat' },
+                'Iran': { height: 173.6, flag: '🇮🇷', region: 'Asia Barat' },
+                'Georgia': { height: 175.5, flag: '🇬🇪', region: 'Asia Barat' },
+                'Armenia': { height: 174.3, flag: '🇦🇲', region: 'Asia Barat' },
+                'Kazakhstan': { height: 172.0, flag: '🇰🇿', region: 'Asia Tengah' },
+                'Uzbekistan': { height: 170.8, flag: '🇺🇿', region: 'Asia Tengah' },
+                'Kyrgyzstan': { height: 171.9, flag: '🇰🇬', region: 'Asia Tengah' },
+                'Tajikistan': { height: 170.4, flag: '🇹🇯', region: 'Asia Tengah' },
+                'Turkmenistan': { height: 171.0, flag: '🇹🇲', region: 'Asia Tengah' },
+                'Mongolia': { height: 167.1, flag: '🇲🇳', region: 'Asia Timur' },
+                'Korea Selatan': { height: 173.5, flag: '🇰🇷', region: 'Asia Timur' },
+                'Korea Utara': { height: 165.6, flag: '🇰🇵', region: 'Asia Timur' },
+                'Jepang': { height: 170.8, flag: '🇯🇵', region: 'Asia Timur' },
+                'China': { height: 169.7, flag: '🇨🇳', region: 'Asia Timur' },
+                'Taiwan': { height: 171.4, flag: '🇹🇼', region: 'Asia Timur' },
+                'Hong Kong': { height: 171.7, flag: '🇭🇰', region: 'Asia Timur' },
+                'Singapura': { height: 170.6, flag: '🇸🇬', region: 'Asia Tenggara' },
+                'Malaysia': { height: 164.7, flag: '🇲🇾', region: 'Asia Tenggara' },
+                'Thailand': { height: 167.5, flag: '🇹🇭', region: 'Asia Tenggara' },
+                'Vietnam': { height: 162.1, flag: '🇻🇳', region: 'Asia Tenggara' },
+                'Filipina': { height: 163.5, flag: '🇵🇭', region: 'Asia Tenggara' },
+                'Indonesia': { height: 158.0, flag: '🇮🇩', region: 'Asia Tenggara' },
+                'Brunei': { height: 165.8, flag: '🇧🇳', region: 'Asia Tenggara' },
+                'Myanmar': { height: 164.4, flag: '🇲🇲', region: 'Asia Tenggara' },
+                'Laos': { height: 159.0, flag: '🇱🇦', region: 'Asia Tenggara' },
+                'Kamboja': { height: 161.4, flag: '🇰🇭', region: 'Asia Tenggara' },
+                'India': { height: 164.7, flag: '🇮🇳', region: 'Asia Selatan' },
+                'Pakistan': { height: 165.2, flag: '🇵🇰', region: 'Asia Selatan' },
+                'Bangladesh': { height: 163.8, flag: '🇧🇩', region: 'Asia Selatan' },
+                'Sri Lanka': { height: 163.6, flag: '🇱🇰', region: 'Asia Selatan' },
+                'Nepal': { height: 162.3, flag: '🇳🇵', region: 'Asia Selatan' },
+                'Bhutan': { height: 165.3, flag: '🇧🇹', region: 'Asia Selatan' },
+                'Maldives': { height: 165.2, flag: '🇲🇻', region: 'Asia Selatan' },
+                'Afghanistan': { height: 168.2, flag: '🇦🇫', region: 'Asia Selatan' },
+                'Argentina': { height: 174.5, flag: '🇦🇷', region: 'Amerika Selatan' },
+                'Uruguay': { height: 170.0, flag: '🇺🇾', region: 'Amerika Selatan' },
+                'Chile': { height: 169.6, flag: '🇨🇱', region: 'Amerika Selatan' },
+                'Brasil': { height: 173.0, flag: '🇧🇷', region: 'Amerika Selatan' },
+                'Paraguay': { height: 169.9, flag: '🇵🇾', region: 'Amerika Selatan' },
+                'Bolivia': { height: 160.0, flag: '🇧🇴', region: 'Amerika Selatan' },
+                'Peru': { height: 164.0, flag: '🇵🇪', region: 'Amerika Selatan' },
+                'Ekuador': { height: 163.0, flag: '🇪🇨', region: 'Amerika Selatan' },
+                'Kolombia': { height: 167.0, flag: '🇨🇴', region: 'Amerika Selatan' },
+                'Venezuela': { height: 169.0, flag: '🇻🇪', region: 'Amerika Selatan' },
+                'Guyana': { height: 169.0, flag: '🇬🇾', region: 'Amerika Selatan' },
+                'Suriname': { height: 169.0, flag: '🇸🇷', region: 'Amerika Selatan' },
+                'Meksiko': { height: 167.0, flag: '🇲🇽', region: 'Amerika Utara' },
+                'Guatemala': { height: 160.1, flag: '🇬🇹', region: 'Amerika Tengah' },
+                'Belize': { height: 167.6, flag: '🇧🇿', region: 'Amerika Tengah' },
+                'El Salvador': { height: 165.8, flag: '🇸🇻', region: 'Amerika Tengah' },
+                'Honduras': { height: 166.4, flag: '🇭🇳', region: 'Amerika Tengah' },
+                'Nicaragua': { height: 166.9, flag: '🇳🇮', region: 'Amerika Tengah' },
+                'Kosta Rika': { height: 169.0, flag: '🇨🇷', region: 'Amerika Tengah' },
+                'Panama': { height: 165.0, flag: '🇵🇦', region: 'Amerika Tengah' },
+                'Kuba': { height: 169.5, flag: '🇨🇺', region: 'Karibia' },
+                'Jamaika': { height: 171.8, flag: '🇯🇲', region: 'Karibia' },
+                'Haiti': { height: 159.6, flag: '🇭🇹', region: 'Karibia' },
+                'Republik Dominika': { height: 172.7, flag: '🇩🇴', region: 'Karibia' },
+                'Puerto Rico': { height: 169.0, flag: '🇵🇷', region: 'Karibia' },
+                'Trinidad dan Tobago': { height: 169.0, flag: '🇹🇹', region: 'Karibia' },
+                'Barbados': { height: 177.0, flag: '🇧🇧', region: 'Karibia' },
+                'Mesir': { height: 170.3, flag: '🇪🇬', region: 'Afrika Utara' },
+                'Libya': { height: 169.3, flag: '🇱🇾', region: 'Afrika Utara' },
+                'Tunisia': { height: 169.4, flag: '🇹🇳', region: 'Afrika Utara' },
+                'Aljazair': { height: 170.6, flag: '🇩🇿', region: 'Afrika Utara' },
+                'Maroko': { height: 169.9, flag: '🇲🇦', region: 'Afrika Utara' },
+                'Sudan': { height: 166.6, flag: '🇸🇩', region: 'Afrika Utara' },
+                'Afrika Selatan': { height: 169.0, flag: '🇿🇦', region: 'Afrika Selatan' },
+                'Nigeria': { height: 163.8, flag: '🇳🇬', region: 'Afrika Barat' },
+                'Ghana': { height: 169.5, flag: '🇬🇭', region: 'Afrika Barat' },
+                'Kenya': { height: 169.6, flag: '🇰🇪', region: 'Afrika Timur' },
+                'Ethiopia': { height: 167.0, flag: '🇪🇹', region: 'Afrika Timur' },
+                'Tanzania': { height: 167.5, flag: '🇹🇿', region: 'Afrika Timur' },
+                'Uganda': { height: 166.8, flag: '🇺🇬', region: 'Afrika Timur' },
+                'Rwanda': { height: 158.7, flag: '🇷🇼', region: 'Afrika Timur' },
+                'Burundi': { height: 158.0, flag: '🇧🇮', region: 'Afrika Timur' },
+                'Kamerun': { height: 170.6, flag: '🇨🇲', region: 'Afrika Tengah' },
+                'Republik Afrika Tengah': { height: 164.0, flag: '🇨🇫', region: 'Afrika Tengah' },
+                'Chad': { height: 165.6, flag: '🇹🇩', region: 'Afrika Tengah' },
+                'Republik Demokratik Kongo': { height: 158.0, flag: '🇨🇩', region: 'Afrika Tengah' },
+                'Angola': { height: 168.0, flag: '🇦🇴', region: 'Afrika Selatan' },
+                'Zambia': { height: 167.9, flag: '🇿🇲', region: 'Afrika Selatan' },
+                'Zimbabwe': { height: 168.0, flag: '🇿🇼', region: 'Afrika Selatan' },
+                'Botswana': { height: 167.8, flag: '🇧🇼', region: 'Afrika Selatan' },
+                'Namibia': { height: 169.0, flag: '🇳🇦', region: 'Afrika Selatan' },
+                'Madagaskar': { height: 161.3, flag: '🇲🇬', region: 'Afrika Timur' }
+            },
+            female: {
+                // Eropa Utara - Tertinggi di dunia
+                'Belanda': { height: 170.4, flag: '🇳🇱', region: 'Eropa Utara' },
+                'Montenegro': { height: 169.9, flag: '🇲🇪', region: 'Eropa Selatan' },
+                'Estonia': { height: 168.7, flag: '🇪🇪', region: 'Eropa Utara' },
+                'Bosnia Herzegovina': { height: 167.5, flag: '🇧🇦', region: 'Eropa Selatan' },
+                'Islandia': { height: 168.1, flag: '🇮🇸', region: 'Eropa Utara' },
+                'Denmark': { height: 167.2, flag: '🇩🇰', region: 'Eropa Utara' },
+                'Norwegia': { height: 167.6, flag: '🇳🇴', region: 'Eropa Utara' },
+                'Serbia': { height: 166.8, flag: '🇷🇸', region: 'Eropa Selatan' },
+                'Jerman': { height: 165.9, flag: '🇩🇪', region: 'Eropa Barat' },
+                'Kroasia': { height: 166.2, flag: '🇭🇷', region: 'Eropa Selatan' },
+                'Slovenia': { height: 166.1, flag: '🇸🇮', region: 'Eropa Selatan' },
+                'Republik Ceko': { height: 166.8, flag: '🇨🇿', region: 'Eropa Tengah' },
+                'Slovakia': { height: 165.4, flag: '🇸🇰', region: 'Eropa Tengah' },
+                'Lithuania': { height: 166.6, flag: '🇱🇹', region: 'Eropa Utara' },
+                'Latvia': { height: 167.5, flag: '🇱🇻', region: 'Eropa Utara' },
+                'Finlandia': { height: 165.3, flag: '🇫🇮', region: 'Eropa Utara' },
+                'Austria': { height: 166.0, flag: '🇦🇹', region: 'Eropa Tengah' },
+                'Swedia': { height: 166.9, flag: '🇸🇪', region: 'Eropa Utara' },
+                'Luksemburg': { height: 164.9, flag: '🇱🇺', region: 'Eropa Barat' },
+                'Ukraina': { height: 165.5, flag: '🇺🇦', region: 'Eropa Timur' },
+                'Australia': { height: 165.4, flag: '🇦🇺', region: 'Oseania' },
+                'Selandia Baru': { height: 164.1, flag: '🇳🇿', region: 'Oseania' },
+                'Kanada': { height: 162.3, flag: '🇨🇦', region: 'Amerika Utara' },
+                'Irlandia': { height: 165.0, flag: '🇮🇪', region: 'Eropa Barat' },
+                'Inggris': { height: 163.0, flag: '🇬🇧', region: 'Eropa Barat' },
+                'Belgia': { height: 164.6, flag: '🇧🇪', region: 'Eropa Barat' },
+                'Swiss': { height: 164.0, flag: '🇨🇭', region: 'Eropa Barat' },
+                'Prancis': { height: 162.5, flag: '🇫🇷', region: 'Eropa Barat' },
+                'Amerika Serikat': { height: 161.3, flag: '🇺🇸', region: 'Amerika Utara' },
+                'Polandia': { height: 165.1, flag: '🇵🇱', region: 'Eropa Tengah' },
+                'Hungaria': { height: 162.5, flag: '🇭🇺', region: 'Eropa Tengah' },
+                'Rusia': { height: 164.9, flag: '🇷🇺', region: 'Eropa Timur' },
+                'Belarus': { height: 166.3, flag: '🇧🇾', region: 'Eropa Timur' },
+                'Italia': { height: 162.9, flag: '🇮🇹', region: 'Eropa Selatan' },
+                'Spanyol': { height: 161.7, flag: '🇪🇸', region: 'Eropa Selatan' },
+                'Portugal': { height: 161.1, flag: '🇵🇹', region: 'Eropa Selatan' },
+                'Yunani': { height: 165.0, flag: '🇬🇷', region: 'Eropa Selatan' },
+                'Israel': { height: 161.9, flag: '🇮🇱', region: 'Asia Barat' },
+                'Lebanon': { height: 160.8, flag: '🇱🇧', region: 'Asia Barat' },
+                'Turki': { height: 161.4, flag: '🇹🇷', region: 'Asia Barat' },
+                'Iran': { height: 160.8, flag: '🇮🇷', region: 'Asia Barat' },
+                'Georgia': { height: 164.1, flag: '🇬🇪', region: 'Asia Barat' },
+                'Armenia': { height: 158.1, flag: '🇦🇲', region: 'Asia Barat' },
+                'Kazakhstan': { height: 159.8, flag: '🇰🇿', region: 'Asia Tengah' },
+                'Uzbekistan': { height: 158.9, flag: '🇺🇿', region: 'Asia Tengah' },
+                'Kyrgyzstan': { height: 159.2, flag: '🇰🇬', region: 'Asia Tengah' },
+                'Tajikistan': { height: 158.0, flag: '🇹🇯', region: 'Asia Tengah' },
+                'Turkmenistan': { height: 158.5, flag: '🇹🇲', region: 'Asia Tengah' },
+                'Mongolia': { height: 157.7, flag: '🇲🇳', region: 'Asia Timur' },
+                'Korea Selatan': { height: 160.9, flag: '🇰🇷', region: 'Asia Timur' },
+                'Korea Utara': { height: 154.9, flag: '🇰🇵', region: 'Asia Timur' },
+                'Jepang': { height: 158.8, flag: '🇯🇵', region: 'Asia Timur' },
+                'China': { height: 159.8, flag: '🇨🇳', region: 'Asia Timur' },
+                'Taiwan': { height: 159.7, flag: '🇹🇼', region: 'Asia Timur' },
+                'Hong Kong': { height: 160.9, flag: '🇭🇰', region: 'Asia Timur' },
+                'Singapura': { height: 160.0, flag: '🇸🇬', region: 'Asia Tenggara' },
+                'Malaysia': { height: 153.3, flag: '🇲🇾', region: 'Asia Tenggara' },
+                'Thailand': { height: 157.3, flag: '🇹🇭', region: 'Asia Tenggara' },
+                'Vietnam': { height: 153.1, flag: '🇻🇳', region: 'Asia Tenggara' },
+                'Filipina': { height: 151.8, flag: '🇵🇭', region: 'Asia Tenggara' },
+                'Indonesia': { height: 147.8, flag: '🇮🇩', region: 'Asia Tenggara' },
+                'Brunei': { height: 153.7, flag: '🇧🇳', region: 'Asia Tenggara' },
+                'Myanmar': { height: 153.0, flag: '🇲🇲', region: 'Asia Tenggara' },
+                'Laos': { height: 150.9, flag: '🇱🇦', region: 'Asia Tenggara' },
+                'Kamboja': { height: 152.4, flag: '🇰🇭', region: 'Asia Tenggara' },
+                'India': { height: 152.6, flag: '🇮🇳', region: 'Asia Selatan' },
+                'Pakistan': { height: 153.0, flag: '🇵🇰', region: 'Asia Selatan' },
+                'Bangladesh': { height: 150.6, flag: '🇧🇩', region: 'Asia Selatan' },
+                'Sri Lanka': { height: 151.4, flag: '🇱🇰', region: 'Asia Selatan' },
+                'Nepal': { height: 150.8, flag: '🇳🇵', region: 'Asia Selatan' },
+                'Bhutan': { height: 153.3, flag: '🇧🇹', region: 'Asia Selatan' },
+                'Maldives': { height: 154.8, flag: '🇲🇻', region: 'Asia Selatan' },
+                'Afghanistan': { height: 155.3, flag: '🇦🇫', region: 'Asia Selatan' },
+                'Argentina': { height: 161.0, flag: '🇦🇷', region: 'Amerika Selatan' },
+                'Uruguay': { height: 158.4, flag: '🇺🇾', region: 'Amerika Selatan' },
+                'Chile': { height: 156.1, flag: '🇨🇱', region: 'Amerika Selatan' },
+                'Brasil': { height: 160.9, flag: '🇧🇷', region: 'Amerika Selatan' },
+                'Paraguay': { height: 158.8, flag: '🇵🇾', region: 'Amerika Selatan' },
+                'Bolivia': { height: 149.2, flag: '🇧🇴', region: 'Amerika Selatan' },
+                'Peru': { height: 151.8, flag: '🇵🇪', region: 'Amerika Selatan' },
+                'Ekuador': { height: 150.4, flag: '🇪🇨', region: 'Amerika Selatan' },
+                'Kolombia': { height: 155.0, flag: '🇨🇴', region: 'Amerika Selatan' },
+                'Venezuela': { height: 156.0, flag: '🇻🇪', region: 'Amerika Selatan' },
+                'Guyana': { height: 156.0, flag: '🇬🇾', region: 'Amerika Selatan' },
+                'Suriname': { height: 156.0, flag: '🇸🇷', region: 'Amerika Selatan' },
+                'Meksiko': { height: 155.5, flag: '🇲🇽', region: 'Amerika Utara' },
+                'Guatemala': { height: 149.4, flag: '🇬🇹', region: 'Amerika Tengah' },
+                'Belize': { height: 154.9, flag: '🇧🇿', region: 'Amerika Tengah' },
+                'El Salvador': { height: 153.3, flag: '🇸🇻', region: 'Amerika Tengah' },
+                'Honduras': { height: 153.9, flag: '🇭🇳', region: 'Amerika Tengah' },
+                'Nicaragua': { height: 154.6, flag: '🇳🇮', region: 'Amerika Tengah' },
+                'Kosta Rika': { height: 156.0, flag: '🇨🇷', region: 'Amerika Tengah' },
+                'Panama': { height: 152.0, flag: '🇵🇦', region: 'Amerika Tengah' },
+                'Kuba': { height: 156.4, flag: '🇨🇺', region: 'Karibia' },
+                'Jamaika': { height: 160.8, flag: '🇯🇲', region: 'Karibia' },
+                'Haiti': { height: 148.0, flag: '🇭🇹', region: 'Karibia' },
+                'Republik Dominika': { height: 159.0, flag: '🇩🇴', region: 'Karibia' },
+                'Puerto Rico': { height: 156.0, flag: '🇵🇷', region: 'Karibia' },
+                'Trinidad dan Tobago': { height: 156.0, flag: '🇹🇹', region: 'Karibia' },
+                'Barbados': { height: 164.0, flag: '🇧🇧', region: 'Karibia' },
+                'Mesir': { height: 158.9, flag: '🇪🇬', region: 'Afrika Utara' },
+                'Libya': { height: 158.0, flag: '🇱🇾', region: 'Afrika Utara' },
+                'Tunisia': { height: 157.5, flag: '🇹🇳', region: 'Afrika Utara' },
+                'Aljazair': { height: 158.8, flag: '🇩🇿', region: 'Afrika Utara' },
+                'Maroko': { height: 157.3, flag: '🇲🇦', region: 'Afrika Utara' },
+                'Sudan': { height: 155.6, flag: '🇸🇩', region: 'Afrika Utara' },
+                'Afrika Selatan': { height: 158.9, flag: '🇿🇦', region: 'Afrika Selatan' },
+                'Nigeria': { height: 157.8, flag: '🇳🇬', region: 'Afrika Barat' },
+                'Ghana': { height: 158.5, flag: '🇬🇭', region: 'Afrika Barat' },
+                'Kenya': { height: 158.0, flag: '🇰🇪', region: 'Afrika Timur' },
+                'Ethiopia': { height: 156.1, flag: '🇪🇹', region: 'Afrika Timur' },
+                'Tanzania': { height: 156.0, flag: '🇹🇿', region: 'Afrika Timur' },
+                'Uganda': { height: 155.7, flag: '🇺🇬', region: 'Afrika Timur' },
+                'Rwanda': { height: 148.7, flag: '🇷🇼', region: 'Afrika Timur' },
+                'Burundi': { height: 147.0, flag: '🇧🇮', region: 'Afrika Timur' },
+                'Kamerun': { height: 159.0, flag: '🇨🇲', region: 'Afrika Tengah' },
+                'Republik Afrika Tengah': { height: 152.0, flag: '🇨🇫', region: 'Afrika Tengah' },
+                'Chad': { height: 154.0, flag: '🇹🇩', region: 'Afrika Tengah' },
+                'Republik Demokratik Kongo': { height: 147.0, flag: '🇨🇩', region: 'Afrika Tengah' },
+                'Angola': { height: 156.0, flag: '🇦🇴', region: 'Afrika Selatan' },
+                'Zambia': { height: 156.8, flag: '🇿🇲', region: 'Afrika Selatan' },
+                'Zimbabwe': { height: 156.0, flag: '🇿🇼', region: 'Afrika Selatan' },
+                'Botswana': { height: 156.7, flag: '🇧🇼', region: 'Afrika Selatan' },
+                'Namibia': { height: 157.0, flag: '🇳🇦', region: 'Afrika Selatan' },
+                'Madagaskar': { height: 150.2, flag: '🇲🇬', region: 'Afrika Timur' }
+            }
+        };
+
+        // Default configuration
+        const defaultConfig = {
+            app_title: "Klasifikasi Tinggi Badan Indonesia",
+            description_text: "Cek apakah tinggi badan Anda termasuk pendek, normal, atau tinggi berdasarkan rata-rata tinggi badan orang Indonesia",
+            check_button_text: "Cek Tinggi Badan Saya"
+        };
+
+        // Configuration change handler
+        async function onConfigChange(config) {
+            const appTitle = config.app_title || defaultConfig.app_title;
+            const descriptionText = config.description_text || defaultConfig.description_text;
+            const checkButtonText = config.check_button_text || defaultConfig.check_button_text;
+
+            document.getElementById('app-title').textContent = appTitle;
+            document.getElementById('description-text').textContent = descriptionText;
+            document.getElementById('check-btn').textContent = checkButtonText;
+        }
+
+        // Capabilities mapping
+        function mapToCapabilities(config) {
+            return {
+                recolorables: [],
+                borderables: [],
+                fontEditable: undefined,
+                fontSizeable: undefined
+            };
+        }
+
+        // Edit panel values mapping
+        function mapToEditPanelValues(config) {
+            return new Map([
+                ["app_title", config.app_title || defaultConfig.app_title],
+                ["description_text", config.description_text || defaultConfig.description_text],
+                ["check_button_text", config.check_button_text || defaultConfig.check_button_text]
+            ]);
+        }
+
+        // Initialize Element SDK
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                onConfigChange,
+                mapToCapabilities,
+                mapToEditPanelValues
+            });
+        }
+
+        // Main functionality
+        function classifyHeight(height, gender) {
+            const data = heightData[gender];
+            
+            if (height <= data.short.max) {
+                return {
+                    category: 'short',
+                    title: 'Tinggi Badan Pendek',
+                    icon: '📉',
+                    description: `Tinggi badan Anda ${height} cm termasuk dalam kategori pendek untuk ${gender === 'male' ? 'laki-laki' : 'perempuan'} Indonesia.`,
+                    color: 'red'
+                };
+            } else if (height >= data.normal.min && height <= data.normal.max) {
+                return {
+                    category: 'normal',
+                    title: 'Tinggi Badan Normal',
+                    icon: '✅',
+                    description: `Tinggi badan Anda ${height} cm termasuk dalam kategori normal untuk ${gender === 'male' ? 'laki-laki' : 'perempuan'} Indonesia.`,
+                    color: 'green'
+                };
+            } else {
+                return {
+                    category: 'tall',
+                    title: 'Tinggi Badan Tinggi',
+                    icon: '📈',
+                    description: `Tinggi badan Anda ${height} cm termasuk dalam kategori tinggi untuk ${gender === 'male' ? 'laki-laki' : 'perempuan'} Indonesia.`,
+                    color: 'blue'
+                };
+            }
+        }
+
+        function getExplanationAndSuggestions(height, gender, result, age) {
+            const data = heightData[gender];
+            const genderText = gender === 'male' ? 'laki-laki' : 'perempuan';
+            
+            let explanations = {
+                short: {
+                    reason: `Tinggi badan Anda ${height} cm berada di bawah rata-rata ${genderText} Indonesia (${data.average} cm). Ini bisa disebabkan oleh faktor genetik, nutrisi masa kecil, atau kondisi kesehatan tertentu.`,
+                    suggestions: [
+                        "🥛 Konsumsi makanan bergizi tinggi protein (susu, telur, ikan, daging tanpa lemak)",
+                        "🏃‍♂️ Lakukan olahraga peregangan seperti renang, basket, atau yoga",
+                        "😴 Pastikan tidur cukup 7-9 jam per hari untuk regenerasi sel",
+                        "🏥 Konsultasi dengan dokter jika diperlukan pemeriksaan hormon pertumbuhan",
+                        "💪 Jaga postur tubuh yang baik untuk memaksimalkan tinggi badan"
+                    ]
+                },
+                normal: {
+                    reason: `Selamat! Tinggi badan Anda ${height} cm berada dalam rentang normal untuk ${genderText} Indonesia (${data.normal.min}-${data.normal.max} cm). Ini menunjukkan pertumbuhan yang sehat dan seimbang.`,
+                    suggestions: [
+                        "✅ Pertahankan pola makan seimbang dengan gizi lengkap",
+                        "🏃‍♀️ Lanjutkan aktivitas fisik rutin untuk menjaga kesehatan tulang",
+                        "🥗 Konsumsi sayuran hijau dan buah-buahan untuk vitamin dan mineral",
+                        "💧 Minum air putih yang cukup (8-10 gelas per hari)",
+                        "🧘‍♂️ Kelola stress dengan baik untuk menjaga kesehatan hormonal"
+                    ]
+                },
+                tall: {
+                    reason: `Tinggi badan Anda ${height} cm berada di atas rata-rata ${genderText} Indonesia (${data.average} cm). Ini bisa merupakan keunggulan genetik atau hasil dari nutrisi dan gaya hidup yang sangat baik.`,
+                    suggestions: [
+                        "🏀 Manfaatkan tinggi badan untuk olahraga seperti basket, voli, atau renang",
+                        "👔 Perhatikan postur tubuh untuk menghindari masalah punggung",
+                        "🪑 Gunakan furniture yang sesuai dengan tinggi badan Anda",
+                        "💪 Lakukan latihan penguatan otot core untuk menjaga keseimbangan",
+                        "🩺 Lakukan pemeriksaan kesehatan rutin untuk memantau kondisi tulang dan sendi"
+                    ]
+                }
+            };
+            
+            return explanations[result.category];
+        }
+
+        function getDetailedAnalysis(height, gender, result, age) {
+            const data = heightData[gender];
+            const genderText = gender === 'male' ? 'laki-laki' : 'perempuan';
+            const categoryText = result.category === 'short' ? 'Pendek' : result.category === 'normal' ? 'Normal' : 'Tinggi';
+            
+            const detailedInfo = {
+                short: {
+                    whyCategory: `Tinggi badan Anda ${height} cm dikategorikan sebagai "Pendek" karena berada di bawah persentil ke-25 dari populasi ${genderText} Indonesia. Rata-rata tinggi badan ${genderText} Indonesia adalah ${data.average} cm, sehingga Anda berada ${data.average - height} cm di bawah rata-rata nasional.`,
+                    factors: [
+                        {
+                            icon: "🧬",
+                            title: "Faktor Genetik (70-80%)",
+                            description: "Tinggi badan orang tua sangat mempengaruhi tinggi badan anak. Jika kedua orang tua memiliki tinggi badan di bawah rata-rata, kemungkinan besar anak juga akan memiliki tinggi badan yang relatif pendek."
+                        },
+                        {
+                            icon: "🍼",
+                            title: "Nutrisi Masa Kecil (15-20%)",
+                            description: "Kekurangan gizi pada masa pertumbuhan (0-18 tahun) dapat menghambat pertumbuhan tulang dan tinggi badan. Protein, kalsium, vitamin D, dan zinc sangat penting untuk pertumbuhan optimal."
+                        },
+                        {
+                            icon: "🏥",
+                            title: "Kondisi Kesehatan",
+                            description: "Gangguan hormon pertumbuhan, penyakit kronis, atau kondisi medis tertentu dapat mempengaruhi pertumbuhan tinggi badan selama masa perkembangan."
+                        },
+                        {
+                            icon: "🌍",
+                            title: "Faktor Lingkungan",
+                            description: "Kondisi sosial ekonomi, akses terhadap makanan bergizi, dan lingkungan tempat tinggal dapat mempengaruhi pertumbuhan optimal."
+                        }
+                    ],
+                    implications: [
+                        "Tidak ada masalah kesehatan yang signifikan jika Anda merasa sehat dan aktif",
+                        "Tinggi badan tidak menentukan kemampuan atau potensi seseorang",
+                        "Fokus pada kesehatan dan kebugaran secara keseluruhan lebih penting",
+                        "Konsultasi dengan dokter jika ada kekhawatiran tentang pertumbuhan"
+                    ]
+                },
+                normal: {
+                    whyCategory: `Tinggi badan Anda ${height} cm dikategorikan sebagai "Normal" karena berada dalam rentang persentil ke-25 hingga ke-75 dari populasi ${genderText} Indonesia. Ini menunjukkan bahwa tinggi badan Anda sesuai dengan standar nasional dan mencerminkan pertumbuhan yang sehat.`,
+                    factors: [
+                        {
+                            icon: "⚖️",
+                            title: "Keseimbangan Genetik",
+                            description: "Kombinasi gen dari kedua orang tua menghasilkan tinggi badan yang proporsional dan sesuai dengan rata-rata populasi Indonesia."
+                        },
+                        {
+                            icon: "🥗",
+                            title: "Nutrisi Seimbang",
+                            description: "Asupan gizi yang cukup selama masa pertumbuhan memungkinkan Anda mencapai potensi tinggi badan yang optimal sesuai genetik."
+                        },
+                        {
+                            icon: "💪",
+                            title: "Gaya Hidup Sehat",
+                            description: "Aktivitas fisik yang cukup, tidur yang berkualitas, dan gaya hidup sehat mendukung pertumbuhan yang optimal."
+                        },
+                        {
+                            icon: "🏥",
+                            title: "Kesehatan Optimal",
+                            description: "Tidak ada gangguan kesehatan signifikan yang menghambat pertumbuhan selama masa perkembangan."
+                        }
+                    ],
+                    implications: [
+                        "Tinggi badan Anda ideal untuk populasi Indonesia",
+                        "Menunjukkan pertumbuhan dan perkembangan yang sehat",
+                        "Tidak ada kekhawatiran medis terkait tinggi badan",
+                        "Pertahankan gaya hidup sehat untuk menjaga kesehatan optimal"
+                    ]
+                },
+                tall: {
+                    whyCategory: `Tinggi badan Anda ${height} cm dikategorikan sebagai "Tinggi" karena berada di atas persentil ke-75 dari populasi ${genderText} Indonesia. Anda berada ${height - data.average} cm di atas rata-rata nasional, yang menunjukkan keunggulan genetik atau kondisi pertumbuhan yang sangat baik.`,
+                    factors: [
+                        {
+                            icon: "🧬",
+                            title: "Keunggulan Genetik",
+                            description: "Gen dari orang tua yang memiliki tinggi badan di atas rata-rata, memberikan potensi pertumbuhan yang lebih tinggi dari populasi umum."
+                        },
+                        {
+                            icon: "🥛",
+                            title: "Nutrisi Optimal",
+                            description: "Asupan protein, kalsium, dan nutrisi penting lainnya yang sangat baik selama masa pertumbuhan memungkinkan pencapaian potensi tinggi badan maksimal."
+                        },
+                        {
+                            icon: "🏃‍♂️",
+                            title: "Aktivitas Fisik Optimal",
+                            description: "Olahraga dan aktivitas fisik yang mendukung pertumbuhan tulang, terutama olahraga yang melibatkan peregangan dan lompatan."
+                        },
+                        {
+                            icon: "🌟",
+                            title: "Kondisi Lingkungan Mendukung",
+                            description: "Lingkungan yang mendukung pertumbuhan optimal, termasuk akses terhadap nutrisi berkualitas dan perawatan kesehatan yang baik."
+                        }
+                    ],
+                    implications: [
+                        "Keunggulan dalam berbagai aktivitas olahraga tertentu",
+                        "Perlu perhatian khusus pada postur tubuh untuk mencegah masalah punggung",
+                        "Pilihan karir tertentu mungkin lebih terbuka (model, atlet, dll)",
+                        "Perhatikan ergonomi dalam aktivitas sehari-hari"
+                    ]
+                }
+            };
+            
+            return detailedInfo[result.category];
+        }
+
+        function showSuggestionsModal(height, gender, result, age) {
+            const explanation = getExplanationAndSuggestions(height, gender, result, age);
+            const data = heightData[gender];
+            const genderText = gender === 'male' ? 'laki-laki' : 'perempuan';
+            const categoryText = result.category === 'short' ? 'Pendek' : result.category === 'normal' ? 'Normal' : 'Tinggi';
+            
+            const suggestionsModalContent = document.getElementById('suggestions-modal-content');
+            suggestionsModalContent.innerHTML = `
+                <!-- Category Summary -->
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-200">
+                    <div class="flex items-center mb-4">
+                        <span class="text-3xl mr-3">${result.icon}</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-blue-800">Kategori: ${categoryText}</h3>
+                            <p class="text-blue-600">Tinggi ${height} cm • ${genderText} • Usia ${age} tahun</p>
+                        </div>
+                    </div>
+                    <div class="bg-white bg-opacity-70 rounded-lg p-4">
+                        <p class="text-gray-700 leading-relaxed">${explanation.reason}</p>
+                    </div>
+                </div>
+
+                <!-- Practical Suggestions -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="mr-2">🎯</span>
+                        Saran Praktis untuk Anda
+                    </h3>
+                    <div class="space-y-3">
+                        ${explanation.suggestions.map((suggestion, index) => `
+                            <div class="flex items-start bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors">
+                                <div class="bg-green-100 text-green-600 rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-4 flex-shrink-0">
+                                    ${index + 1}
+                                </div>
+                                <p class="text-gray-700 leading-relaxed">${suggestion}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <!-- Additional Tips Based on Category -->
+                <div class="bg-gradient-to-r ${result.category === 'short' ? 'from-red-50 to-pink-50 border-red-200' : result.category === 'normal' ? 'from-green-50 to-emerald-50 border-green-200' : 'from-blue-50 to-cyan-50 border-blue-200'} border rounded-xl p-6">
+                    <h3 class="text-lg font-bold ${result.category === 'short' ? 'text-red-800' : result.category === 'normal' ? 'text-green-800' : 'text-blue-800'} mb-4 flex items-center">
+                        <span class="mr-2">${result.category === 'short' ? '🌱' : result.category === 'normal' ? '✨' : '🏆'}</span>
+                        ${result.category === 'short' ? 'Tips Khusus untuk Tinggi Badan Pendek' : result.category === 'normal' ? 'Tips Mempertahankan Kesehatan Optimal' : 'Tips Memanfaatkan Keunggulan Tinggi Badan'}
+                    </h3>
+                    <div class="space-y-3">
+                        ${getAdditionalTips(result.category).map(tip => `
+                            <div class="flex items-start">
+                                <span class="${result.category === 'short' ? 'text-red-500' : result.category === 'normal' ? 'text-green-500' : 'text-blue-500'} mr-3 flex-shrink-0 text-lg">${tip.icon}</span>
+                                <div>
+                                    <h4 class="font-semibold ${result.category === 'short' ? 'text-red-700' : result.category === 'normal' ? 'text-green-700' : 'text-blue-700'} mb-1">${tip.title}</h4>
+                                    <p class="text-gray-600 text-sm leading-relaxed">${tip.description}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <!-- Important Notes -->
+                <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-6">
+                    <h3 class="text-lg font-bold text-yellow-800 mb-3 flex items-center">
+                        <span class="mr-2">⚠️</span>
+                        Catatan Penting
+                    </h3>
+                    <ul class="space-y-2 text-yellow-700">
+                        <li class="flex items-start">
+                            <span class="text-yellow-600 mr-2 flex-shrink-0">•</span>
+                            <span class="text-sm">Konsultasikan dengan dokter sebelum memulai program diet atau olahraga baru</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-yellow-600 mr-2 flex-shrink-0">•</span>
+                            <span class="text-sm">Hasil dapat bervariasi tergantung kondisi kesehatan dan faktor genetik individual</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-yellow-600 mr-2 flex-shrink-0">•</span>
+                            <span class="text-sm">Fokus pada kesehatan dan kebugaran secara keseluruhan, bukan hanya tinggi badan</span>
+                        </li>
+                    </ul>
+                </div>
+            `;
+            
+            document.getElementById('suggestions-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function getAdditionalTips(category) {
+            const tips = {
+                short: [
+                    {
+                        icon: "🧘‍♂️",
+                        title: "Postur Tubuh yang Baik",
+                        description: "Jaga postur tegak saat berdiri dan duduk. Latihan yoga atau pilates dapat membantu memperbaiki postur dan membuat Anda terlihat lebih tinggi."
+                    },
+                    {
+                        icon: "👕",
+                        title: "Pilihan Fashion yang Tepat",
+                        description: "Gunakan pakaian dengan garis vertikal, warna solid, dan potongan yang pas. Hindari pakaian terlalu longgar atau motif horizontal yang besar."
+                    },
+                    {
+                        icon: "💪",
+                        title: "Latihan Peregangan",
+                        description: "Lakukan latihan peregangan rutin seperti hanging, swimming, atau basketball untuk memaksimalkan potensi tinggi badan yang ada."
+                    },
+                    {
+                        icon: "😊",
+                        title: "Percaya Diri",
+                        description: "Tinggi badan tidak menentukan nilai diri. Fokus pada kelebihan dan bakat Anda yang lain untuk membangun kepercayaan diri."
+                    }
+                ],
+                normal: [
+                    {
+                        icon: "🏃‍♀️",
+                        title: "Olahraga Teratur",
+                        description: "Pertahankan rutinitas olahraga 3-4 kali seminggu untuk menjaga kesehatan tulang dan otot. Kombinasikan cardio dan strength training."
+                    },
+                    {
+                        icon: "🥗",
+                        title: "Pola Makan Seimbang",
+                        description: "Konsumsi makanan bergizi seimbang dengan protein, karbohidrat kompleks, lemak sehat, vitamin, dan mineral untuk menjaga kesehatan optimal."
+                    },
+                    {
+                        icon: "😴",
+                        title: "Kualitas Tidur",
+                        description: "Pastikan tidur 7-9 jam per malam dengan kualitas yang baik untuk mendukung regenerasi sel dan menjaga kesehatan hormonal."
+                    },
+                    {
+                        icon: "🧘",
+                        title: "Manajemen Stress",
+                        description: "Kelola stress dengan baik melalui meditasi, hobi, atau aktivitas yang menyenangkan untuk menjaga kesehatan mental dan fisik."
+                    }
+                ],
+                tall: [
+                    {
+                        icon: "🏀",
+                        title: "Manfaatkan Keunggulan",
+                        description: "Pertimbangkan olahraga yang memanfaatkan tinggi badan seperti basket, voli, renang, atau atletik untuk pengembangan diri."
+                    },
+                    {
+                        icon: "🪑",
+                        title: "Ergonomi yang Tepat",
+                        description: "Gunakan furniture dan workspace yang sesuai dengan tinggi badan untuk mencegah masalah postur dan nyeri punggung."
+                    },
+                    {
+                        icon: "💪",
+                        title: "Penguatan Otot Core",
+                        description: "Lakukan latihan penguatan otot perut dan punggung secara rutin untuk menjaga postur tubuh yang baik dan mencegah cedera."
+                    },
+                    {
+                        icon: "👔",
+                        title: "Fashion & Karir",
+                        description: "Manfaatkan keunggulan tinggi badan untuk peluang karir tertentu seperti modeling, atau pilih pakaian yang sesuai proporsi tubuh."
+                    }
+                ]
+            };
+            
+            return tips[category] || [];
+        }
+
+        function showDetailModal(height, gender, result, age) {
+            const analysis = getDetailedAnalysis(height, gender, result, age);
+            const data = heightData[gender];
+            const genderText = gender === 'male' ? 'laki-laki' : 'perempuan';
+            const categoryText = result.category === 'short' ? 'Pendek' : result.category === 'normal' ? 'Normal' : 'Tinggi';
+            
+            const modalContent = document.getElementById('modal-content');
+            modalContent.innerHTML = `
+                <!-- Summary Card -->
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-200">
+                    <div class="flex items-center mb-4">
+                        <span class="text-3xl mr-3">${result.icon}</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-blue-800">Ringkasan Analisis</h3>
+                            <p class="text-blue-600">Usia ${age} tahun • ${genderText} • ${height} cm</p>
+                        </div>
+                    </div>
+                    <div class="bg-white bg-opacity-70 rounded-lg p-4">
+                        <div class="grid grid-cols-3 gap-4 text-center">
+                            <div>
+                                <div class="text-2xl font-bold text-gray-800">${height} cm</div>
+                                <div class="text-sm text-gray-600">Tinggi Anda</div>
+                            </div>
+                            <div>
+                                <div class="text-2xl font-bold text-blue-600">${data.average} cm</div>
+                                <div class="text-sm text-gray-600">Rata-rata Nasional</div>
+                            </div>
+                            <div>
+                                <div class="text-2xl font-bold ${result.category === 'short' ? 'text-red-600' : result.category === 'tall' ? 'text-green-600' : 'text-blue-600'}">${height > data.average ? '+' : ''}${height - data.average} cm</div>
+                                <div class="text-sm text-gray-600">Selisih</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Why This Category -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-3 flex items-center">
+                        <span class="mr-2">❓</span>
+                        Mengapa Dikategorikan "${categoryText}"?
+                    </h3>
+                    <p class="text-gray-700 leading-relaxed">${analysis.whyCategory}</p>
+                </div>
+
+                <!-- Factors Analysis -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="mr-2">🔬</span>
+                        Faktor-faktor yang Mempengaruhi
+                    </h3>
+                    <div class="space-y-4">
+                        ${analysis.factors.map(factor => `
+                            <div class="border border-gray-100 rounded-lg p-4 hover:bg-gray-50 transition-colors">
+                                <div class="flex items-start">
+                                    <span class="text-2xl mr-3 flex-shrink-0">${factor.icon}</span>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-800 mb-2">${factor.title}</h4>
+                                        <p class="text-gray-600 text-sm leading-relaxed">${factor.description}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <!-- Implications -->
+                <div class="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6">
+                    <h3 class="text-lg font-bold text-green-800 mb-4 flex items-center">
+                        <span class="mr-2">💡</span>
+                        Implikasi dan Hal yang Perlu Diketahui
+                    </h3>
+                    <ul class="space-y-2">
+                        ${analysis.implications.map(implication => `
+                            <li class="flex items-start text-green-700">
+                                <span class="text-green-500 mr-2 flex-shrink-0">✓</span>
+                                <span class="text-sm leading-relaxed">${implication}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+
+                <!-- Statistical Context -->
+                <div class="bg-gray-50 border border-gray-200 rounded-xl p-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="mr-2">📊</span>
+                        Konteks Statistik Indonesia
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div class="bg-white rounded-lg p-4">
+                            <h4 class="font-semibold text-gray-700 mb-2">Distribusi Tinggi Badan ${genderText === 'laki-laki' ? 'Pria' : 'Wanita'}</h4>
+                            <ul class="space-y-1 text-gray-600">
+                                <li>• Pendek: ≤${data.short.max} cm (~25%)</li>
+                                <li>• Normal: ${data.normal.min}-${data.normal.max} cm (~50%)</li>
+                                <li>• Tinggi: ≥${data.tall.min} cm (~25%)</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white rounded-lg p-4">
+                            <h4 class="font-semibold text-gray-700 mb-2">Perbandingan Regional</h4>
+                            <ul class="space-y-1 text-gray-600">
+                                <li>• Asia Tenggara: ${genderText === 'laki-laki' ? '165-170 cm' : '155-160 cm'}</li>
+                                <li>• Asia Timur: ${genderText === 'laki-laki' ? '170-175 cm' : '158-163 cm'}</li>
+                                <li>• Global: ${genderText === 'laki-laki' ? '175-180 cm' : '162-167 cm'}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('detail-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function updateVisualization(height, gender, result, age) {
+            const data = heightData[gender];
+            
+            // Update ranges
+            document.getElementById('short-range').textContent = `≤${data.short.max} cm`;
+            document.getElementById('normal-range').textContent = `${data.normal.min}-${data.normal.max} cm`;
+            document.getElementById('tall-range').textContent = `≥${data.tall.min} cm`;
+            
+            // Update statistics
+            document.getElementById('avg-height').textContent = `${data.average} cm`;
+            const diff = height - data.average;
+            document.getElementById('height-diff').textContent = `${diff > 0 ? '+' : ''}${diff} cm`;
+            
+            // Update user position with age and category
+            const categoryText = result.category === 'short' ? 'Pendek' : result.category === 'normal' ? 'Normal' : 'Tinggi';
+            document.getElementById('user-position').textContent = `Usia ${age} tahun, Tinggi ${height} cm ( Tinggi Badan Termasuk Kedalam Kategori ${categoryText} )`;
+            
+            // Highlight user's category
+            const bars = ['short-bar', 'normal-bar', 'tall-bar'];
+            bars.forEach(barId => {
+                const bar = document.getElementById(barId);
+                bar.classList.remove('pulse-animation');
+            });
+            
+            const userBar = document.getElementById(`${result.category}-bar`);
+            userBar.classList.add('pulse-animation');
+        }
+
+        function showResult(height, gender, age) {
+            const result = classifyHeight(height, gender);
+            
+            // Store current analysis data for modal
+            currentAnalysisData = { height, gender, result, age };
+            
+            // Update result content with age information
+            document.getElementById('result-icon').textContent = result.icon;
+            document.getElementById('result-title').textContent = result.title;
+            document.getElementById('result-description').textContent = 
+                `Tinggi badan Anda ${height} cm pada usia ${age} tahun termasuk dalam kategori ${result.category === 'short' ? 'pendek' : result.category === 'normal' ? 'normal' : 'tinggi'} untuk ${gender === 'male' ? 'laki-laki' : 'perempuan'} Indonesia.`;
+            
+            // Update visualization
+            updateVisualization(height, gender, result, age);
+            
+            // Show result card with animation
+            const resultCard = document.getElementById('result-card');
+            resultCard.classList.remove('hidden');
+            resultCard.classList.add('result-animation');
+            
+            // Scroll to result
+            resultCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Store current analysis data for modal
+        let currentAnalysisData = null;
+
+        // Add click animation to buttons and inputs
+        function addClickAnimation(element, animationClass) {
+            element.addEventListener('click', function() {
+                this.classList.add(animationClass);
+                setTimeout(() => {
+                    this.classList.remove(animationClass);
+                }, 150);
+            });
+        }
+
+        // Add click animations to all buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            // Main buttons
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                addClickAnimation(button, 'btn-click-animation');
+            });
+
+            // Input fields and selects
+            const inputs = document.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                addClickAnimation(input, 'input-click-animation');
+            });
+        });
+
+        // Event listeners
+        document.getElementById('check-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const gender = document.getElementById('gender').value;
+            const height = parseInt(document.getElementById('height').value);
+            const age = parseInt(document.getElementById('age').value);
+            
+            if (!gender) {
+                // Show inline message instead of alert
+                const genderSelect = document.getElementById('gender');
+                genderSelect.style.borderColor = '#ef4444';
+                genderSelect.focus();
+                return;
+            }
+            
+            if (!height || height < 100 || height > 250) {
+                // Show inline message instead of alert
+                const heightInput = document.getElementById('height');
+                heightInput.style.borderColor = '#ef4444';
+                heightInput.focus();
+                return;
+            }
+            
+            if (!age || age < 10 || age > 100) {
+                // Show inline message instead of alert
+                const ageInput = document.getElementById('age');
+                ageInput.style.borderColor = '#ef4444';
+                ageInput.focus();
+                return;
+            }
+            
+            // Reset border colors
+            document.getElementById('gender').style.borderColor = '#d1d5db';
+            document.getElementById('height').style.borderColor = '#d1d5db';
+            document.getElementById('age').style.borderColor = '#d1d5db';
+            
+            showResult(height, gender, age);
+        });
+
+        // Reset border color on input
+        document.getElementById('gender').addEventListener('change', function() {
+            this.style.borderColor = '#d1d5db';
+        });
+
+        document.getElementById('height').addEventListener('input', function() {
+            this.style.borderColor = '#d1d5db';
+        });
+
+        document.getElementById('age').addEventListener('input', function() {
+            this.style.borderColor = '#d1d5db';
+        });
+
+        // Enter key support
+        document.getElementById('height').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('check-btn').click();
+            }
+        });
+
+        document.getElementById('age').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('check-btn').click();
+            }
+        });
+
+        // Detail modal event listeners
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.id === 'detail-btn') {
+                if (currentAnalysisData) {
+                    showDetailModal(
+                        currentAnalysisData.height,
+                        currentAnalysisData.gender,
+                        currentAnalysisData.result,
+                        currentAnalysisData.age
+                    );
+                }
+            }
+            
+            if (e.target && e.target.id === 'suggestions-btn') {
+                if (currentAnalysisData) {
+                    showSuggestionsModal(
+                        currentAnalysisData.height,
+                        currentAnalysisData.gender,
+                        currentAnalysisData.result,
+                        currentAnalysisData.age
+                    );
+                }
+            }
+            
+            if (e.target && e.target.id === 'close-modal') {
+                document.getElementById('detail-modal').classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+            
+            if (e.target && e.target.id === 'close-suggestions-modal') {
+                document.getElementById('suggestions-modal').classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('detail-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        document.getElementById('suggestions-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const detailModal = document.getElementById('detail-modal');
+                const suggestionsModal = document.getElementById('suggestions-modal');
+                
+                if (!detailModal.classList.contains('hidden')) {
+                    detailModal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                }
+                
+                if (!suggestionsModal.classList.contains('hidden')) {
+                    suggestionsModal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        });
+
+        // Navigation functionality
+        function switchPage(pageId) {
+            // Hide all pages
+            document.getElementById('classification-page').classList.add('hidden');
+            document.getElementById('comparison-page').classList.add('hidden');
+            
+            // Show selected page
+            document.getElementById(pageId).classList.remove('hidden');
+            
+            // Update navigation buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.remove('bg-gradient-to-r', 'from-blue-500', 'to-purple-600', 'shadow-lg');
+            });
+            
+            const activeBtn = pageId === 'classification-page' ? 
+                document.getElementById('nav-classification') : 
+                document.getElementById('nav-comparison');
+            
+            activeBtn.classList.add('active');
+            activeBtn.classList.add('bg-gradient-to-r', 'from-blue-500', 'to-purple-600', 'shadow-lg');
+        }
+
+        // Navigation event listeners
+        document.getElementById('nav-classification').addEventListener('click', function() {
+            switchPage('classification-page');
+        });
+
+        document.getElementById('nav-comparison').addEventListener('click', function() {
+            switchPage('comparison-page');
+        });
+
+        // International comparison functionality
+        function compareWithWorld(userHeight, gender) {
+            const countries = worldHeightData[gender];
+            const comparisons = [];
+            
+            // Calculate differences and sort
+            for (const [country, data] of Object.entries(countries)) {
+                const difference = userHeight - data.height;
+                comparisons.push({
+                    country,
+                    height: data.height,
+                    flag: data.flag,
+                    region: data.region,
+                    difference,
+                    percentage: ((userHeight / data.height) * 100).toFixed(1)
+                });
+            }
+            
+            // Sort by height (tallest first)
+            comparisons.sort((a, b) => b.height - a.height);
+            
+            return comparisons;
+        }
+
+        function calculateGlobalPercentile(userHeight, gender) {
+            const countries = worldHeightData[gender];
+            const heights = Object.values(countries).map(country => country.height);
+            const totalCountries = heights.length;
+            const shorterCountries = heights.filter(height => height < userHeight).length;
+            
+            return Math.round((shorterCountries / totalCountries) * 100);
+        }
+
+        function getRegionalAnalysis(userHeight, gender) {
+            const countries = worldHeightData[gender];
+            const regions = {};
+            
+            // Group by region
+            for (const [country, data] of Object.entries(countries)) {
+                if (!regions[data.region]) {
+                    regions[data.region] = [];
+                }
+                regions[data.region].push({
+                    country,
+                    height: data.height,
+                    flag: data.flag,
+                    difference: userHeight - data.height
+                });
+            }
+            
+            // Calculate regional averages
+            const regionalStats = {};
+            for (const [region, countries] of Object.entries(regions)) {
+                const avgHeight = countries.reduce((sum, country) => sum + country.height, 0) / countries.length;
+                const userDiff = userHeight - avgHeight;
+                
+                regionalStats[region] = {
+                    average: Math.round(avgHeight),
+                    difference: Math.round(userDiff),
+                    countries: countries.sort((a, b) => b.height - a.height),
+                    rank: countries.filter(country => country.height < userHeight).length + 1,
+                    total: countries.length
+                };
+            }
+            
+            return regionalStats;
+        }
+
+        function showWorldComparison(userHeight, gender) {
+            const comparisons = compareWithWorld(userHeight, gender);
+            const percentile = calculateGlobalPercentile(userHeight, gender);
+            const regionalStats = getRegionalAnalysis(userHeight, gender);
+            
+            // Filter out Indonesia from comparisons
+            const filteredComparisons = comparisons.filter(c => c.country !== 'Indonesia');
+            
+            // Country comparison table
+            const countryComparisonDiv = document.getElementById('country-comparison');
+            const topCountries = filteredComparisons.slice(0, 10);
+            
+            countryComparisonDiv.innerHTML = `
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="bg-gray-50">
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Peringkat</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Negara</th>
+                                <th class="px-4 py-3 text-center text-sm font-semibold text-gray-700">Rata-rata</th>
+                                <th class="px-4 py-3 text-center text-sm font-semibold text-gray-700">Selisih</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            ${topCountries.map((country, index) => `
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-medium text-gray-900">#${index + 1}</td>
+                                    <td class="px-4 py-3 text-sm text-gray-900">
+                                        <span class="mr-2">${country.flag}</span>
+                                        ${country.country}
+                                    </td>
+                                    <td class="px-4 py-3 text-sm text-center text-gray-900">${country.height} cm</td>
+                                    <td class="px-4 py-3 text-sm text-center ${country.difference >= 0 ? 'text-green-600' : 'text-red-600'}">
+                                        ${Math.abs(country.difference).toFixed(1)} cm
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+
+            
+            // Show results
+            document.getElementById('comparison-results').classList.remove('hidden');
+            document.getElementById('comparison-results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Country selection functionality
+        function populateCountryDropdown() {
+            const select = document.getElementById('country-select');
+            const countries = worldHeightData.male; // Use male data for country list (both genders have same countries)
+            
+            // Sort countries alphabetically
+            const sortedCountries = Object.entries(countries).sort(([a], [b]) => a.localeCompare(b));
+            
+            // Clear existing options except the first one
+            select.innerHTML = '<option value="">-- Pilih Negara --</option>';
+            
+            // Add country options
+            sortedCountries.forEach(([country, data]) => {
+                const option = document.createElement('option');
+                option.value = country;
+                option.textContent = `${data.flag} ${country}`;
+                select.appendChild(option);
+            });
+        }
+
+        function showSingleCountryComparison(userHeight, gender, age, selectedCountry) {
+            const countries = worldHeightData[gender];
+            const countryData = countries[selectedCountry];
+            
+            if (!countryData) return;
+            
+            const difference = userHeight - countryData.height;
+            const indonesiaData = countries['Indonesia'];
+            
+            // Country comparison display
+            const countryComparisonDiv = document.getElementById('country-comparison');
+            countryComparisonDiv.innerHTML = `
+                <!-- Comparison Header -->
+                <div class="text-center mb-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">
+                        Perbandingan dengan ${selectedCountry}
+                    </h3>
+                    <p class="text-gray-600">Tinggi badan Anda vs rata-rata ${selectedCountry}</p>
+                </div>
+
+                <!-- Visual Comparison -->
+                <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- User -->
+                        <div class="text-center">
+                            <div class="bg-yellow-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
+                                <span class="text-2xl">👤</span>
+                            </div>
+                            <div class="text-2xl font-bold text-gray-800">${userHeight} cm</div>
+                            <div class="text-sm text-gray-600">Tinggi Anda</div>
+                            <div class="text-xs text-gray-500 mt-1">Usia ${age} tahun</div>
+                        </div>
+
+                        <!-- VS -->
+                        <div class="flex items-center justify-center">
+                            <div class="bg-gray-200 rounded-full w-12 h-12 flex items-center justify-center">
+                                <span class="text-lg font-bold text-gray-600">VS</span>
+                            </div>
+                        </div>
+
+                        <!-- Selected Country -->
+                        <div class="text-center">
+                            <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
+                                <span class="text-2xl">${countryData.flag}</span>
+                            </div>
+                            <div class="text-2xl font-bold text-gray-800">${countryData.height} cm</div>
+                            <div class="text-sm text-gray-600">${selectedCountry}</div>
+                            <div class="text-xs text-gray-500 mt-1">Rata-rata nasional</div>
+                        </div>
+                    </div>
+
+                    <!-- Difference Display -->
+                    <div class="mt-6 text-center">
+                        <div class="bg-white rounded-lg p-4 inline-block">
+                            <div class="text-lg font-semibold text-gray-700 mb-1">Selisih Tinggi Badan</div>
+                            <div class="text-3xl font-bold ${difference >= 0 ? 'text-green-600' : 'text-red-600'}">
+                                ${difference > 0 ? '+' : ''}${difference.toFixed(1)} cm
+                            </div>
+                            <div class="text-sm text-gray-600 mt-1">
+                                ${difference >= 0 ? 
+                                    `Anda lebih tinggi ${Math.abs(difference).toFixed(1)} cm dari rata-rata ${selectedCountry}` : 
+                                    `Anda lebih pendek ${Math.abs(difference).toFixed(1)} cm dari rata-rata ${selectedCountry}`
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Insights -->
+                <div class="mt-6 bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-xl p-6">
+                    <h4 class="font-semibold text-green-800 mb-3 flex items-center">
+                        <span class="mr-2">💡</span>
+                        Insight Perbandingan
+                    </h4>
+                    <div class="space-y-2 text-sm text-green-700">
+                        <p>• Tinggi badan rata-rata ${selectedCountry} adalah ${countryData.height} cm untuk ${gender === 'male' ? 'pria' : 'wanita'}</p>
+                        <p>• ${selectedCountry} berada di region ${countryData.region}</p>
+                        <p>• ${difference >= 0 ? 
+                            `Anda memiliki tinggi badan yang lebih tinggi dibandingkan rata-rata penduduk ${selectedCountry}` : 
+                            `Rata-rata penduduk ${selectedCountry} memiliki tinggi badan yang lebih tinggi dari Anda`
+                        }</p>
+                        <p>• Perbedaan tinggi badan antar negara dipengaruhi oleh faktor genetik, nutrisi, dan lingkungan</p>
+                    </div>
+                </div>
+            `;
+            
+            // Show results
+            document.getElementById('comparison-results').classList.remove('hidden');
+            document.getElementById('comparison-results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Initialize country dropdown on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            populateCountryDropdown();
+        });
+
+        // Compare country event listener
+        document.getElementById('compare-country-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const gender = document.getElementById('comp-gender').value;
+            const height = parseInt(document.getElementById('comp-height').value);
+            const age = parseInt(document.getElementById('comp-age').value);
+            const selectedCountry = document.getElementById('country-select').value;
+            
+            if (!gender) {
+                const genderSelect = document.getElementById('comp-gender');
+                genderSelect.style.borderColor = '#ef4444';
+                genderSelect.focus();
+                return;
+            }
+            
+            if (!height || height < 100 || height > 250) {
+                const heightInput = document.getElementById('comp-height');
+                heightInput.style.borderColor = '#ef4444';
+                heightInput.focus();
+                return;
+            }
+            
+            if (!age || age < 10 || age > 100) {
+                const ageInput = document.getElementById('comp-age');
+                ageInput.style.borderColor = '#ef4444';
+                ageInput.focus();
+                return;
+            }
+            
+            if (!selectedCountry) {
+                const countrySelect = document.getElementById('country-select');
+                countrySelect.style.borderColor = '#ef4444';
+                countrySelect.focus();
+                return;
+            }
+            
+            // Reset border colors
+            document.getElementById('comp-gender').style.borderColor = '#d1d5db';
+            document.getElementById('comp-height').style.borderColor = '#d1d5db';
+            document.getElementById('comp-age').style.borderColor = '#d1d5db';
+            document.getElementById('country-select').style.borderColor = '#d1d5db';
+            
+            showSingleCountryComparison(height, gender, age, selectedCountry);
+        });
+
+        // Comparison page event listeners - Global comparison removed for clarity
+
+        // Reset border color on input for comparison page
+        document.getElementById('comp-gender').addEventListener('change', function() {
+            this.style.borderColor = '#d1d5db';
+        });
+
+        document.getElementById('comp-height').addEventListener('input', function() {
+            this.style.borderColor = '#d1d5db';
+        });
+
+        document.getElementById('comp-age').addEventListener('input', function() {
+            this.style.borderColor = '#d1d5db';
+        });
+
+        document.getElementById('country-select').addEventListener('change', function() {
+            this.style.borderColor = '#d1d5db';
+        });
+
+        // Enter key support for comparison page
+        document.getElementById('comp-height').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('compare-country-btn').click();
+            }
+        });
+
+        document.getElementById('comp-age').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('compare-country-btn').click();
+            }
+        });
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a0e0d9c471cfe1c',t:'MTc2MzUzNzk2MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
