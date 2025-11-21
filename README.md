@@ -1,2 +1,2 @@
-# thehighestrate 
+# the-highest-rate 
 FAKYU
